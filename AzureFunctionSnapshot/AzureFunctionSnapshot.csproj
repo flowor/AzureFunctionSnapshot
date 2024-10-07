@@ -26,7 +26,7 @@
 		</None>
 	</ItemGroup>
 
-  <Target Name="FixPlaywrightCopyAfterBuild" AfterTargets="Build">
+  <!--<Target Name="FixPlaywrightCopyAfterBuild" AfterTargets="Build">
     <ItemGroup>
 
       <_BuildCopyItems Include="$(OutDir).playwright\**" />
@@ -49,5 +49,5 @@
 
     <Copy SourceFiles="@(_BuildCopyItems)" DestinationFiles="@(_BuildCopyItems->'$(PublishDir)bin\.playwright\%(RecursiveDir)%(Filename)%(Extension)')"/>
 
-  </Target>
+  </Target>-->
 </Project>
