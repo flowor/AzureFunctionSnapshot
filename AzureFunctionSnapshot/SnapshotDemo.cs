@@ -21,7 +21,15 @@ namespace AzureFunctionSnapshot
             Environment.SetEnvironmentVariable("PLAYWRIGHT_BROWSERS_PATH", Environment.GetEnvironmentVariable("HOME_EXPANDED"));
             Microsoft.Playwright.Program.Main(new[] { "install", "chromium", "--with-deps" });
 
-            _logger.LogInformation("Processing snapshot request.");
+            var query = System.Web.HttpUtility.ParseQueryString(req.Url.Query);
+
+
+            _logger.LogInformation($"Processing snapshot request. {query["url"]}");
+
+
+
+            var url = string.IsNullOrWhiteSpace(query["url"]) ? "https://example.com" : query["url"];
+
 
             var response = req.CreateResponse(HttpStatusCode.OK);
             response.Headers.Add("Content-Type", "image/png");
@@ -30,7 +38,7 @@ namespace AzureFunctionSnapshot
             await using var browser = await playwright.Chromium.LaunchAsync(new() { Headless = true });
             var page = await browser.NewPageAsync();
 
-            await page.GotoAsync("https://example.com");
+            await page.GotoAsync(url);
 
             response.WriteBytes(await page.ScreenshotAsync());
 
