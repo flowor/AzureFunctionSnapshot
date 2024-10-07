@@ -16,7 +16,7 @@ namespace AzureFunctionSnapshot
         }
 
         [Function(nameof(SnapshotDemo))]
-        public async Task<HttpResponseData> TakeSnapshotAsync([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequestData req)
+        public async Task<HttpResponseData> TakeSnapshotAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestData req)
         {
             _logger.LogInformation("Processing snapshot request.");
 
