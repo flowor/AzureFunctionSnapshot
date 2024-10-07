@@ -18,6 +18,9 @@ namespace AzureFunctionSnapshot
         [Function(nameof(SnapshotDemo))]
         public async Task<HttpResponseData> TakeSnapshotAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestData req)
         {
+            Environment.SetEnvironmentVariable("PLAYWRIGHT_BROWSERS_PATH", Environment.GetEnvironmentVariable("HOME_EXPANDED"));
+            Microsoft.Playwright.Program.Main(new[] { "install", "chromium", "--with-deps" });
+
             _logger.LogInformation("Processing snapshot request.");
 
             var response = req.CreateResponse(HttpStatusCode.OK);
