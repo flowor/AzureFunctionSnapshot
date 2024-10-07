@@ -25,4 +25,29 @@
 			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
 		</None>
 	</ItemGroup>
+
+  <Target Name="FixPlaywrightCopyAfterBuild" AfterTargets="Build">
+    <ItemGroup>
+
+      <_BuildCopyItems Include="$(OutDir).playwright\**" />
+
+    </ItemGroup>
+
+    <Message Text="[Fix] Copying files to the nested bin folder of the azure function... $(OutDir)bin" Importance="high"/>
+
+    <Copy SourceFiles="@(_BuildCopyItems)" DestinationFiles="@(_BuildCopyItems->'$(OutDir)bin\.playwright\%(RecursiveDir)%(Filename)%(Extension)')"/>
+
+  </Target>
+  <Target Name="FixPlaywrightCopyAfterPublish" AfterTargets="Publish">
+    <ItemGroup>
+
+      <_BuildCopyItems Include="$(PublishDir).playwright\**" />
+
+    </ItemGroup>
+
+    <Message Text="[Fix] Copying files to the nested bin folder of the azure function for publishing... $(PublishDir)bin" Importance="high"/>
+
+    <Copy SourceFiles="@(_BuildCopyItems)" DestinationFiles="@(_BuildCopyItems->'$(PublishDir)bin\.playwright\%(RecursiveDir)%(Filename)%(Extension)')"/>
+
+  </Target>
 </Project>
